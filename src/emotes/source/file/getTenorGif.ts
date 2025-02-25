@@ -1,6 +1,7 @@
+import fetch from "node-fetch";
+
 import { env } from "../../../env";
 import { Emote } from "../../../types";
-import fetch from "node-fetch";
 
 interface TenorResponseObject {
   results: {
@@ -22,7 +23,7 @@ const getTenorGif = async (tenorGifUrl: string): Promise<Emote> => {
   if (!gifId || !Number(gifId)) throw new Error("Wrong gif id.");
 
   const params = new URLSearchParams({
-    key: env.tenorApiKey,
+    key: env.TENOR_API_KEY,
     ids: gifId,
     media_filter: "tinygif",
   });

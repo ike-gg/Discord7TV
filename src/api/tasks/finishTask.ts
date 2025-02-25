@@ -21,8 +21,8 @@ const schema = z.object({
 export default async (req: Request, res: Response, next: NextFunction) => {
   const prisma = new PrismaClient();
   try {
-    const accessToken = res.locals.accessToken as string;
-    const taskId = req.params.taskid;
+    const accessToken = res.locals["accessToken"] as string;
+    const taskId = req.params["taskid"];
 
     if (!taskId) throw new TetraAPIError(400, "Bad request, task missing.");
 

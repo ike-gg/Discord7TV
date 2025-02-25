@@ -1,3 +1,5 @@
+import { ActionRowBuilder, EmbedBuilder, ButtonBuilder } from "@discordjs/builders";
+import { randomUUID } from "crypto";
 import {
   ButtonInteraction,
   CommandInteraction,
@@ -9,15 +11,13 @@ import {
   isJSONEncodable,
   DiscordAPIError,
 } from "discord.js";
-import { ActionRowBuilder, EmbedBuilder, ButtonBuilder } from "@discordjs/builders";
 
-import { randomUUID } from "crypto";
+import { client } from "../..";
+import { EmbeddedError } from "../../constants/errors";
+import { Messages } from "../../constants/messages";
+import { env, isDevelopment } from "../../env";
 import { DiscordBot } from "../../types";
 import { TetraEmbed, TetraEmbedContent } from "../embedMessages/TetraEmbed";
-import { Messages } from "../../constants/messages";
-import { client } from "../..";
-import { env, isDevelopment } from "../../env";
-import { EmbeddedError } from "../../constants/errors";
 
 export class UnhandledError extends Error {
   constructor(message: string) {
@@ -50,7 +50,7 @@ export class FeedbackManager {
       const lastIndex = embeds.length - 1;
       let lastEmbedText = this.client.user!.username;
 
-      if (env.node_env === "development") {
+      if (isDevelopment) {
         lastEmbedText += " | dev";
       }
 
@@ -58,7 +58,6 @@ export class FeedbackManager {
       if (!lastEmbedData) return;
       if (isJSONEncodable(lastEmbedData)) lastEmbedData = lastEmbedData.toJSON();
 
-      //@ts-expect-error - valid embed
       const lastEmbedBuilder = new EmbedBuilder(lastEmbedData);
       lastEmbedBuilder.setFooter({
         text: lastEmbedText,

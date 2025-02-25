@@ -1,6 +1,0 @@
-{
-  "comment": {
-    "devGuilds": "guild ids where you'd like to push the slash commands, string[]"
-  },
-  "devGuilds": ["123", "345"]
-}

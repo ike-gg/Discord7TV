@@ -15,7 +15,6 @@ import { PrismaClient, Emotes } from "@prisma/client";
 const ctxStealEmote = {
   data: new ContextMenuCommandBuilder()
     .setName("Save to Panel")
-    //@ts-expect-error - will be fixed in d.js
     .setType(ApplicationCommandType.Message),
   async execute(interaction: MessageContextMenuCommandInteraction, client: DiscordBot) {
     const feedback = new FeedbackManager(interaction, {

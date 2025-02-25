@@ -3,15 +3,15 @@ import {
   ChatInputCommandInteraction,
   SlashCommandBuilder,
 } from "discord.js";
-
-import { DiscordBot } from "../types";
 import { OpenAI } from "openai";
+
 import { env } from "../env";
+import { DiscordBot } from "../types";
 import { parseEntitlementsData } from "../utils/discord/parseEntitlementsData";
 import { FeedbackManager } from "../utils/managers/FeedbackManager";
 
 const openai = new OpenAI({
-  apiKey: env.openai_auth_key,
+  apiKey: env.OPENAI_API_KEY,
 });
 
 const supportedModels = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"];

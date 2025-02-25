@@ -1,41 +1,16 @@
 import { Interaction } from "discord.js";
+
+import { env, isDevelopment, isProduction } from "./env";
 import {
   DiscordBot,
   ExecutableButtonInteraction,
   ExecutableCommandInteraction,
   ExecutableSelectMenu,
 } from "./types";
-import { FeedbackManager } from "./utils/managers/FeedbackManager";
 import interactionLogger from "./utils/interactionLoggers";
-import { BANNEDLIST } from "./bannedusers";
-import { TetraEmbed } from "./utils/embedMessages/TetraEmbed";
-import { env } from "./env";
-import { BLACKLISTED_GUILDS } from "./blacklistedguilds";
+import { FeedbackManager } from "./utils/managers/FeedbackManager";
 
 const interactionHandler = async (interaction: Interaction, client: DiscordBot) => {
-  const banDetails = BANNEDLIST.find(
-    (bannedUser) => bannedUser.userId === interaction.user.id
-  );
-
-  const blacklistedGuild = BLACKLISTED_GUILDS.find(
-    (guild) => guild.guildId === interaction.guildId
-  );
-
-  if (blacklistedGuild) blacklistedGuild.isActive && (await interaction.guild?.leave());
-
-  if (banDetails) {
-    if (!interaction.isRepliable()) return;
-    interaction.reply({
-      embeds: [
-        TetraEmbed.error({
-          title: "Banned",
-          description: `Reason: ${banDetails.reason || "-"}`,
-        }),
-      ],
-    });
-    return;
-  }
-
   if (interaction.isAutocomplete()) {
     const command = client.commands.get(
       interaction.commandName
@@ -72,8 +47,8 @@ const interactionHandler = async (interaction: Interaction, client: DiscordBot) 
 
     const isDevCommand = interaction.message.interaction?.commandName.startsWith("dev");
 
-    if (env.node_env === "development" && !isDevCommand) return;
-    if (env.node_env === "production" && isDevCommand) return;
+    if (isDevelopment && !isDevCommand) return;
+    if (isProduction && isDevCommand) return;
 
     const isForAll = interaction.customId.split(":")[1] === "all";
 

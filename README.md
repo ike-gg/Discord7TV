@@ -52,30 +52,6 @@ npm install
 
 3. Create .env file and fill it with your credentials
 
-```go
-  node_env: z.enum(["development", "production"]).default("development"),
-
-  discordBotToken: z.string(),
-  discordBotId: z.string(),
-  oauthClientId: z.string(),
-  oauthClientSecret: z.string(),
-
-  inviteLink: z.string().url(),
-
-  twitchClientId: z.string(),
-  twitchSecretKey: z.string(),
-
-  secretPhrase: z.string(),
-
-  tenorApiKey: z.string(),
-
-  imgurClientId: z.string(),
-
-  DATABASE_URL: z.string().url(),
-
-  PORT: z.number().optional(),
-```
-
 4. Deploy global commands and push prisma schema
 
 ```

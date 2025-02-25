@@ -1,12 +1,13 @@
 import { ApiClient } from "@twurple/api";
 import { RefreshingAuthProvider } from "@twurple/auth";
-import { Emote } from "../../types";
-import { env } from "../../env";
 import { rawDataSymbol } from "@twurple/common";
 
+import { env } from "../../env";
+import { Emote } from "../../types";
+
 const authProvider = new RefreshingAuthProvider({
-  clientId: env.twitchClientId!,
-  clientSecret: env.twitchSecretKey!,
+  clientId: env.TWITCH_CLIENT_ID,
+  clientSecret: env.TWITCH_SECRET_KEY,
 });
 
 const twitchApi = new ApiClient({

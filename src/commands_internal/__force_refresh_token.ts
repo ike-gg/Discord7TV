@@ -1,6 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { FeedbackManager } from "../utils/managers/FeedbackManager";
-import { refreshUsersTokens } from "../utils/database/refreshUsersTokens";
 
 const here = {
   data: new SlashCommandBuilder()
@@ -14,7 +13,7 @@ const here = {
     await feedback.info("refreshing tokens...");
 
     try {
-      refreshUsersTokens();
+      // refreshUsersTokens();
     } catch (error) {
       await feedback.handleError(error);
     }

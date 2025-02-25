@@ -1,13 +1,14 @@
+import { randomUUID } from "crypto";
 import ffmpeg from "ffmpeg";
 import * as fs from "fs";
-import { tetraTempDirectory } from "../../constants";
 import path from "path";
-import { randomUUID } from "crypto";
+
+import { TempFileManager } from "#/files/temp-file-manager";
 
 export const watermarkVideo = async (video: Buffer, id: string): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
     const pid = randomUUID();
-    const tempDir = tetraTempDirectory(id);
+    const tempDir = TempFileManager.create();
     const videoPath = `${tempDir}/in${pid}.mp4`;
     const newVideoPath = `${tempDir}/out${pid}.mp4`;
 
@@ -43,49 +44,3 @@ export const watermarkVideo = async (video: Buffer, id: string): Promise<Buffer>
     }
   });
 };
-
-// remotion approach but it renders really slow.
-
-// import { renderMedia, selectComposition } from "@remotion/renderer";
-// import path from "path";
-// //@ts-ignore
-// import ffprobe from "ffprobe-client";
-
-// interface WatermarkVideoProps {
-//   mediaUrl?: string;
-//   durationInFrames?: number;
-//   width?: number;
-//   height?: number;
-// }
-
-// const compositionId = "tetramedia";
-// export const watermarkVideo = async (url: string) => {
-// const { format } = await ffprobe(url);
-
-//   const { duration } = format;
-
-//   const bundleLocation = path.resolve(__dirname, "./watermark");
-
-//   const inputProps: WatermarkVideoProps = {
-//     mediaUrl: url,
-//     durationInFrames: Math.ceil(duration * 30),
-//   };
-
-//   const composition = await selectComposition({
-//     serveUrl: bundleLocation,
-//     id: compositionId,
-//     //@ts-ignore
-//     inputProps,
-//   });
-
-//   const { buffer } = await renderMedia({
-//     composition,
-//     serveUrl: bundleLocation,
-//     codec: "h264",
-//     //@ts-ignore
-//     inputProps,
-//     onProgress: (p) => console.log(p),
-//   });
-
-//   return buffer;
-// };

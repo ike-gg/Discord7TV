@@ -1,4 +1,4 @@
-import Discord, {
+import {
   AutocompleteInteraction,
   ButtonInteraction,
   Collection,
@@ -6,6 +6,7 @@ import Discord, {
   SelectMenuInteraction,
   Client,
 } from "discord.js";
+
 import { FeedbackManager } from "../utils/managers/FeedbackManager";
 import TaskManager from "../utils/managers/TaskManager";
 
@@ -39,6 +40,8 @@ export type SupportedEmotesOrigin =
   | "giphy"
   | "imgur"
   | "source";
+
+export type FittingOption = "fill" | "cover" | "contain";
 
 export interface Emote {
   id: string;

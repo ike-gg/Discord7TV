@@ -1,4 +1,4 @@
-import { maxEmoteSize } from "../constants";
+import { maxEmoteSize } from "../../constants";
 import { Arguments, xGifsicle } from "./xGifsicle";
 
 interface Stage {
@@ -113,7 +113,11 @@ export class AutoXGifsicle extends xGifsicle {
         value: 0.95,
       };
 
-      if (method === "colors") await this.colors(value);
+      console.log("RUnning method: ", method, value);
+
+      if (method === "colors") {
+        await this.colors(value);
+      }
       if (method === "reduceFrames") {
         const { fps } = await this.metadata();
         if (fps >= 30) await this.frameRate(2);

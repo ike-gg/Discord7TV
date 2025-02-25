@@ -1,17 +1,19 @@
-import sharp from "sharp";
 import fs from "fs";
-import { tetraTempDirectory } from "../../../constants";
+import path from "path";
+import sharp from "sharp";
 //@ts-expect-error - videoshow is not typed
 import videoshow from "videoshow";
+
 import { EmbeddedError } from "../../../constants/errors";
-import path from "path";
+
+import { TempFileManager } from "#/files/temp-file-manager";
 
 export const renderSlideshow = async (
   images: Buffer[],
   audio?: Buffer
 ): Promise<Buffer> => {
   return new Promise(async (resolve, reject) => {
-    const tempDirPath = tetraTempDirectory();
+    const tempDirPath = TempFileManager.create();
 
     const imgPaths = await Promise.all(
       images.map(async (image, index) => {

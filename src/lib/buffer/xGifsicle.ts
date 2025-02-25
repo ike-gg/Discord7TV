@@ -1,12 +1,12 @@
-import { RESTPutAPIGuildTemplateSyncResult } from "discord.js";
 import prettyBytes from "pretty-bytes";
 import sharp from "sharp";
 
+import { execBunBuffer, execBunBufferSymbol } from "./x-gifsicle-support";
+
 const isGif = require("is-gif");
 const xgifsicle = require("gifsicle");
-const execBuffer = require("exec-buffer");
 
-export type Arguments = (string | number)[];
+export type Arguments = (string | number | Symbol)[];
 export type FrameDimensions = {
   width: number;
   height: number;
@@ -190,16 +190,25 @@ export class xGifsicle {
     const args: Arguments = [
       "--no-warnings",
       ..._argsBeforeInput,
-      execBuffer.input,
+      // execBuffer.input,
+
+      execBunBufferSymbol.input,
       ..._args,
       ...this.staticArgs,
       "-O3",
       "-o",
-      execBuffer.output,
+      // execBuffer.output,
+
+      execBunBufferSymbol.output,
     ];
 
     try {
-      const newBuffer = await execBuffer({
+      // const newBuffer = await execBuffer({
+      //   input: this.fileBuffer,
+      //   bin: xgifsicle,
+      //   args,
+      // });
+      const newBuffer = await execBunBuffer({
         input: this.fileBuffer,
         bin: xgifsicle,
         args,
@@ -215,6 +224,7 @@ export class xGifsicle {
       }
       return newBuffer;
     } catch (err: any) {
+      console.log(err);
       err.message = err.stderr || err.message;
       throw new Error(err);
     }

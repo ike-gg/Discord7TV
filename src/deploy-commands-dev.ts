@@ -1,10 +1,10 @@
+import { REST, Routes, SlashCommandBuilder } from "discord.js";
 import fs from "node:fs";
 import path from "path";
+
 import { env } from "./env";
 
-import { REST, Routes, SlashCommandBuilder } from "discord.js";
-
-import { devGuilds } from "../config.json";
+import { CoreConsole } from "#/loggers";
 
 const commands: any[] = [];
 
@@ -43,11 +43,16 @@ console.log("D> loaded internal commands:" + internalCommandFiles.join(", "));
 
 const rest = new REST({
   version: "10",
-}).setToken(env.discordBotToken);
+}).setToken(env.DISCORD_BOT_TOKEN);
 
-devGuilds.forEach((guildId) => {
+if (!env.DEV_GUILDS) {
+  CoreConsole.error("DEV_GUILDS not set in .env");
+  process.exit(1);
+}
+
+env.DEV_GUILDS.forEach((guildId) => {
   rest
-    .put(Routes.applicationGuildCommands(env.discordBotId, guildId), {
+    .put(Routes.applicationGuildCommands(env.DISCORD_BOT_ID, guildId), {
       body: commands,
     })
     .then((data) => console.log(`successfully registered to guild ${guildId}`))

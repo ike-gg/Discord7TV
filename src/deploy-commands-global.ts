@@ -1,13 +1,12 @@
-import fs from "node:fs";
-import path from "path";
-
-import { env } from "./env";
-
 import {
   REST,
   RESTPostAPIChatInputApplicationCommandsJSONBody,
   Routes,
 } from "discord.js";
+import fs from "node:fs";
+import path from "path";
+
+import { env } from "./env";
 
 const commands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
 const commandsPath = path.join(__dirname, "commands");
@@ -27,13 +26,13 @@ for (const file of commandFiles) {
 
 const rest = new REST({
   version: "10",
-}).setToken(env.discordBotToken);
+}).setToken(env.DISCORD_BOT_TOKEN);
 
 (async () => {
   try {
     console.log(`started refreshing ${commands.length} applications commands`);
 
-    const data = await rest.put(Routes.applicationCommands(env.discordBotId), {
+    const data = await rest.put(Routes.applicationCommands(env.DISCORD_BOT_ID), {
       body: commands,
     });
 

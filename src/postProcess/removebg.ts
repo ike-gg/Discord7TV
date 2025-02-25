@@ -1,10 +1,13 @@
-import { AttachmentBuilder, ButtonInteraction } from "discord.js";
+import { removeBackground } from "@imgly/background-removal-node";
+import { ButtonInteraction } from "discord.js";
+import fs from "fs";
+import path from "path";
+
+import editEmoteByUser from "../emotes/editEmoteByUser";
 import { DiscordBot } from "../types";
 import * as TaskTypes from "../types/TaskTypes";
-import editEmoteByUser from "../emotes/editEmoteByUser";
-import { removeBackground } from "@imgly/background-removal-node";
-import fs from "fs";
-import { tetraTempDirectory } from "../constants";
+
+import { TempFileManager } from "#/files/temp-file-manager";
 
 export default async function removebg(
   interaction: ButtonInteraction,
@@ -23,8 +26,8 @@ export default async function removebg(
 
     const { emote } = taskDetails;
 
-    const tempDir = tetraTempDirectory(interaction.id);
-    const tempFile = `${tempDir}/emote.png`;
+    const tempDir = TempFileManager.create();
+    const tempFile = path.join(tempDir, "emote.png");
     fs.writeFileSync(tempFile, emote.data);
 
     const editedEmote = await removeBackground(tempFile, {

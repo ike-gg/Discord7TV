@@ -6,9 +6,10 @@ import {
   hyperlink,
   SlashCommandBuilder,
 } from "discord.js";
+
+import { env } from "../env";
 import { DiscordBot } from "../types";
 import URLButton from "../utils/elements/URLButton";
-import { env } from "../env";
 
 const infobot = {
   data: new SlashCommandBuilder()
@@ -21,14 +22,14 @@ const infobot = {
     const activeGuilds = client.guilds.cache.size;
     const reachableUsers = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
 
-    const dcInvLink = hyperlink("Click here!", env.inviteLink);
+    const dcInvLink = hyperlink("Click here!", env.INVITE_LINK);
     const ghRepoLink = hyperlink("@ike-gg/Tetra", githubRepo);
     const ghAuthorLink = hyperlink("@ike-gg", githubAuthor);
     const dcAuthorLink = hyperlink("ike", discordAuthor);
 
     const componentsRow = new ActionRowBuilder<ButtonBuilder>();
     componentsRow.addComponents(
-      URLButton("Invite link", env.inviteLink),
+      URLButton("Invite link", env.INVITE_LINK),
       URLButton("Discord Owner", discordAuthor),
       URLButton("GitHub Repo", githubRepo),
       URLButton("GitHub Owner", githubAuthor)
@@ -39,8 +40,6 @@ const infobot = {
     messagePayload.setFooter({
       text: client.user!.username,
       iconURL: client.user!.avatarURL()!,
-
-      // url: inviteLink,
     });
     messagePayload.addFields({
       name: "Invite link",

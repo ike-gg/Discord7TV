@@ -1,9 +1,10 @@
 import { GuildEmoji } from "discord.js";
-import { TetraEmbedContent } from "../utils/embedMessages/TetraEmbed";
-import multilineText from "../utils/multilineText";
 import prettyBytes from "pretty-bytes";
+
 import { maxEmoteSize } from ".";
 import { supportedMediaPlatforms } from "../commands/media";
+import { TetraEmbedContent } from "../utils/embedMessages/TetraEmbed";
+import multilineText from "../utils/multilineText";
 
 type T = TetraEmbedContent;
 
@@ -15,6 +16,7 @@ const loadingEmotes = [
   "<a:tetraLoading:1165904168205156372>",
   "<a:tetraLoading:1165904037800050788>",
 ];
+
 export const getRandomLoadingEmote = () =>
   loadingEmotes[Math.floor(Math.random() * loadingEmotes.length)];
 

@@ -16,7 +16,6 @@ import getGiphyGif from "../emotes/source/file/getGiphyGif";
 const ctxStealReaction = {
   data: new ContextMenuCommandBuilder()
     .setName("File to emote")
-    //@ts-expect-error - will be fixed in d.js
     .setType(ApplicationCommandType.Message),
   async execute(interaction: MessageContextMenuCommandInteraction, client: DiscordBot) {
     const feedback = new FeedbackManager(interaction);

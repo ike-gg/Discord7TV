@@ -5,10 +5,11 @@ import {
   SelectMenuInteraction,
   SlashCommandBuilder,
 } from "discord.js";
-import path from "path";
 import fs from "fs";
+import path from "path";
+
+import { env, isDevelopment } from "./env";
 import { DiscordBot } from "./types";
-import { env } from "./env";
 
 const importInteractions = (client: DiscordBot) => {
   client.commands = new Collection();
@@ -34,16 +35,15 @@ const importCommands = (clientCommands: Collection<string, CommandInteraction>) 
     .filter((file) => file.endsWith(".ts"))
     .map((file) => path.join(internalCommandsPath, file));
 
-  const commandsToLoad =
-    env.node_env === "development"
-      ? [...internalCommandFiles, ...commandFiles]
-      : commandFiles;
+  const commandsToLoad = isDevelopment
+    ? [...internalCommandFiles, ...commandFiles]
+    : commandFiles;
 
   for (const file of commandsToLoad) {
     import(file).then((command) => {
       const commandData = command.default.data as SlashCommandBuilder;
 
-      if (env.node_env === "development") {
+      if (isDevelopment) {
         commandData.setName(`dev${commandData.name}`);
       }
 
